@@ -1,16 +1,16 @@
-Projet Logique Programmable : Réseau de neurones sur FPGA
+# Réseau de neurones sur FPGA
 
-  Ce dépôt contient les travaux de modélisation et de synthèse d'un réseau de neurones artificiels réalisés dans le cadre du cours de Logique Porgrammable en 4EII à l'INSA Rennes. L'objectif est l'implémentation matérielle sur une cible FPGA MAX 10 via la plateforme DE10-Lite.
+Ce dépôt contient les travaux de modélisation et de synthèse d'un réseau de neurones artificiels réalisés dans le cadre du cours de Logique Programmable en 4EII à l'INSA Rennes. L'objectif est l'implémentation matérielle sur une cible FPGA MAX 10 via la plateforme DE10-Lite.
 
-Architecture du neurone :
+## Architecture du neurone
   
-  Le projet repose sur la modélisation d'un neurone biologique constitué d'un corps cellulaire, de dendrites (entrées) et d'un axone (sortie). En version numérique, chaque neurone agit comme un processeur élémentaire: Somme pondérée (Y) : Multiplication des entrées Xi par des poids Wi (représentant la force de la synapse).
+Le projet repose sur la modélisation d'un neurone biologique constitué d'un corps cellulaire, de dendrites (entrées) et d'un axone (sortie). En version numérique, chaque neurone agit comme un processeur élémentaire: Somme pondérée (Y) : Multiplication des entrées Xi par des poids Wi (représentant la force de la synapse).
 Équation : Y = sum_{i=0}^{N-1} Wi*Xi.
 Fonction de transfert (Z) : Application d'un seuillage simple pour déterminer l'état de sortie.
 Z = Vmax si Y > T.
 Z = Vmin sinon.
 
-Paramètres de Configuration :
+## Paramètres de Configuration
 
 Les constantes globales du système sont définies dans le package pack_neurones.vhd: 
 - Nombre d'entrées (N) : 4.
