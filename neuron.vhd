@@ -9,21 +9,23 @@ ENTITY neuron IS
 	);
 	PORT (
 		input  : IN  tab_int_const;
-		output : OUT natural
+		output : OUT short_natural
 	);
 END ENTITY;
 
 ARCHITECTURE behavior OF neuron IS
-BEGIN
+BEGIN	
 	PROCESS(input)
-		VARIABLE weighted_sum : integer := 0;
+		VARIABLE weighted_sum : long_natural := 0;
 	BEGIN
 		weighted_sum := 0;
 
+		-- computing y = w * x
 		FOR i IN 1 TO N LOOP
 			weighted_sum := weighted_sum + (wi(i) * input(i));
 		END LOOP;
 
+		-- activation function (based on the Heaviside function)
 		IF weighted_sum > T THEN
 			output <= Vmax;
 		ELSE
@@ -31,3 +33,4 @@ BEGIN
 		END IF;
 	END PROCESS;
 END ARCHITECTURE;
+
