@@ -11,6 +11,6 @@ PACKAGE pack_neuralnet IS
 	SUBTYPE short_natural IS natural RANGE 0 to 63;   -- 6 bits
 	SUBTYPE long_natural  IS natural RANGE 0 to (N * ((2 ** 6 - 1) ** 2));
 	
-	TYPE tab_int IS ARRAY(natural RANGE <>) OF short_natural; -- integer;
+	TYPE tab_int IS ARRAY(natural RANGE <>) OF short_natural;
 	SUBTYPE tab_int_const IS tab_int(N DOWNTO 1);
 END PACKAGE;

@@ -9,27 +9,34 @@ ENTITY neuron IS
 	);
 	PORT (
 		input  : IN  tab_int_const;
+		clk    : IN  std_logic;
 		output : OUT short_natural
 	);
 END ENTITY;
 
 ARCHITECTURE behavior OF neuron IS
+	SIGNAL sync_input : tab_int_const;
 BEGIN	
-	PROCESS(input)
+	PROCESS(clk)
 		VARIABLE weighted_sum : long_natural := 0;
+		VARIABLE sync_ws      : long_natural := 0;
 	BEGIN
-		weighted_sum := 0;
+		IF rising_edge(clk) THEN
+			sync_input <= input;
+			sync_ws := weighted_sum;
+			weighted_sum := 0;
 
-		-- computing y = w * x
-		FOR i IN 1 TO N LOOP
-			weighted_sum := weighted_sum + (wi(i) * input(i));
-		END LOOP;
+			-- computing y = w * x
+			FOR i IN 1 TO N LOOP
+				weighted_sum := weighted_sum + (wi(i) * sync_input(i));
+			END LOOP;
 
-		-- activation function (based on the Heaviside function)
-		IF weighted_sum > T THEN
-			output <= Vmax;
-		ELSE
-			output <= Vmin;
+			-- activation function (shifted Heaviside function)
+			IF sync_ws > T THEN
+				output <= Vmax;
+			ELSE
+				output <= Vmin;
+			END IF;
 		END IF;
 	END PROCESS;
 END ARCHITECTURE;

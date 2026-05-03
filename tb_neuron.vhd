@@ -17,17 +17,21 @@ ARCHITECTURE testing OF tb_neuron IS
 		);
 	END COMPONENT;
 
-	SIGNAL X : tab_int_const := (others => 0);
-	SIGNAL Z : natural;
-	SIGNAL WS : integer := 0;
-	SIGNAL status : string(4 DOWNTO 1);
+	SIGNAL X : tab_int_const := (others => 0);        -- testbench input vector
+	SIGNAL Z : natural;                               -- testbench output value
+	SIGNAL WS : integer := 0;                         -- internal weighted_sum value
+	SIGNAL status : string(4 DOWNTO 1);               -- status string
 
+	-- neuron synaptic weights
 	CONSTANT weight_array : tab_int_const := (3, -2, 4, -9, 5, 1, 4, 6);
 BEGIN
+	-- Device Under Test (DUT)
 	dut : neuron
 	GENERIC MAP(wi => weight_array)
 	PORT MAP(input => X, output => Z);
 	
+	
+	-- status control process
 	status_control : PROCESS (X)
 		VARIABLE weighted_sum : integer := 0;
 	BEGIN
@@ -40,12 +44,15 @@ BEGIN
 		WS <= weighted_sum;
 
 		IF weighted_sum > T THEN
-			status <= "Vmax";
+			status <= "Vmax";         -- the weighted sum surpasses the neuron's threshold
 		ELSE
-			status <= "Vmin";
+			status <= "Vmin";         -- the weighted sum does not surpass the neuron's threshold
 		END IF;
 	END PROCESS;
 
+	
+	
+	-- simulation course
 	simulation : PROCESS BEGIN
 		X <= (others => 0);
 		wait for 100 us;
